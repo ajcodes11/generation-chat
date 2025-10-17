@@ -8,23 +8,33 @@
   <!-- Google Font -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
   
-  <!-- Font Awesome for icons -->
+  <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
   <style>
     * { box-sizing: border-box; }
-
     body {
       font-family: 'Poppins', sans-serif;
       background: linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 100%);
       margin: 0;
       display: flex;
-      align-items: center;
       justify-content: center;
-      min-height: 100vh;
-      padding: 20px;
+      align-items: flex-start;
+      padding: 40px 20px;
+      gap: 40px;
+      flex-wrap: wrap;
     }
 
+    /* Container for Chat + About */
+    .container {
+      display: flex;
+      gap: 30px;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: flex-start;
+    }
+
+    /* CHAT APP */
     .app {
       width: 420px;
       background: #fff;
@@ -33,427 +43,248 @@
       overflow: hidden;
       display: flex;
       flex-direction: column;
-      transition: 0.3s;
       position: relative;
     }
-
     .app::before {
       content: '';
       position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
+      top: 0; left: 0; right: 0;
       height: 4px;
       background: linear-gradient(90deg, #667eea, #764ba2, #f093fb);
       z-index: 10;
     }
-
-    .header {
-      padding: 24px 20px;
-      background: linear-gradient(90deg, #667eea, #764ba2);
-      color: #fff;
-      text-align: center;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .header::before {
-      content: '';
-      position: absolute;
-      top: -50%;
-      left: -50%;
-      width: 200%;
-      height: 200%;
-      background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
-      transform: rotate(30deg);
-    }
-
-    .header h1 {
-      margin: 0;
-      font-size: 22px;
-      letter-spacing: 0.5px;
-      font-weight: 700;
-      position: relative;
-      z-index: 1;
-      text-shadow: 0 2px 4px rgba(0,0,0,0.2);
-    }
-
-    .header p {
-      margin: 8px 0 0;
-      font-size: 14px;
-      opacity: 0.9;
-      font-weight: 400;
-      position: relative;
-      z-index: 1;
-    }
+    .header { padding: 24px 20px; background: linear-gradient(90deg,#667eea,#764ba2); color:#fff; text-align:center; position:relative; overflow:hidden; }
+    .header h1 { margin:0; font-size:22px; font-weight:700; z-index:1; position:relative; text-shadow:0 2px 4px rgba(0,0,0,0.2); }
+    .header p { margin:8px 0 0; font-size:14px; opacity:0.9; font-weight:400; z-index:1; position:relative; }
 
     .chat {
-      flex: 1;
-      padding: 20px;
-      overflow-y: auto;
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-      background: #f7f9fc;
-      min-height: 400px;
-      max-height: 500px;
+      flex:1;
+      padding:20px;
+      overflow-y:auto;
+      display:flex;
+      flex-direction:column;
+      gap:16px;
+      background:#f7f9fc;
+      min-height:400px;
+      max-height:500px;
     }
 
     .bubble {
       max-width: 85%;
-      padding: 14px 18px;
-      border-radius: 18px;
-      font-size: 14px;
-      line-height: 1.5;
-      position: relative;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-      animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      padding:14px 18px;
+      border-radius:18px;
+      font-size:14px;
+      line-height:1.5;
+      position:relative;
+      box-shadow:0 2px 8px rgba(0,0,0,0.08);
+      animation: popIn 0.4s cubic-bezier(0.175,0.885,0.32,1.275);
+    }
+    @keyframes popIn {0%{transform:scale(0.8);opacity:0;}100%{transform:scale(1);opacity:1;}}
+    .user { align-self:flex-end; background:linear-gradient(135deg,#667eea,#764ba2); color:white; border-bottom-right-radius:6px;}
+    .bot { align-self:flex-start; background:#fff; color:#333; border-bottom-left-radius:6px; box-shadow:0 2px 10px rgba(0,0,0,0.08);}
+
+    .input-row { display:flex; padding:16px; background:#fff; border-top:1px solid #e5e7eb; gap:10px; align-items:center;}
+    .input-row input { flex:1; padding:14px 18px; border:1px solid #e1e5e9; border-radius:12px; font-size:15px; outline:none; transition:all 0.3s ease; background:#f8fafc;}
+    .input-row input:focus { border-color:#667eea; box-shadow:0 0 0 3px rgba(102,126,234,0.15); background:#fff;}
+    .input-row button { background:linear-gradient(135deg,#667eea,#764ba2); color:white; border:none; border-radius:12px; padding:14px 20px; cursor:pointer; font-weight:600; display:flex; align-items:center; justify-content:center; gap:6px; box-shadow:0 4px 12px rgba(102,126,234,0.3);}
+    .input-row button:hover { transform:translateY(-2px); box-shadow:0 6px 16px rgba(102,126,234,0.4);}
+    .muted { font-size:13px; color:#6b7280; text-align:center; padding:14px 0 18px; background:#fff; border-top:1px solid #f0f0f0;}
+    .generation-icon { margin-right:8px; }
+    .quick-actions { display:flex; flex-wrap:wrap; justify-content:center; padding:10px 0; background:#fff; border-top:1px solid #f0f0f0;}
+    .decade-button { background:#f0f4ff; border:1px solid #dbe4ff; border-radius:10px; padding:8px 12px; margin:4px; font-size:12px; cursor:pointer; transition:all 0.2s ease;}
+    .decade-button:hover { background:#e0ebff; transform:translateY(-2px); }
+
+    /* ABOUT MAKER (SIDE BOX) */
+    .about-maker {
+      width:300px;
+      background:white;
+      border-radius:20px;
+      padding:30px 20px;
+      box-shadow:0 10px 40px rgba(0,0,0,0.15);
+      text-align:center;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      transition:0.3s;
+    }
+    .about-maker img {
+      width:120px;
+      height:120px;
+      border-radius:50%;
+      object-fit:cover;
+      border:3px solid #667eea;
+      margin-bottom:15px;
+      cursor:pointer;
+    }
+    .about-maker h2 { margin:0; font-size:20px; color:#333; font-weight:600; }
+    .about-maker p { font-size:14px; color:#555; margin:10px 0; text-align:center; }
+    .social-icons { margin-top:10px; display:flex; justify-content:center; gap:15px; }
+    .social-icons a { color:#667eea; font-size:18px; transition:0.3s; }
+    .social-icons a:hover { color:#764ba2; transform:scale(1.1); }
+
+    /* Lightbox */
+    #lightbox {
+      display:none;
+      position:fixed;
+      top:0; left:0;
+      width:100%; height:100%;
+      background: rgba(0,0,0,0.85);
+      justify-content:center;
+      align-items:center;
+      z-index:9999;
+    }
+    #lightbox img {
+      max-width:90%;
+      max-height:90%;
+      border-radius:15px;
+      box-shadow:0 0 20px #fff;
     }
 
-    @keyframes popIn {
-      0% { transform: scale(0.8); opacity: 0; }
-      100% { transform: scale(1); opacity: 1; }
-    }
-
-    .user {
-      align-self: flex-end;
-      background: linear-gradient(135deg, #667eea, #764ba2);
-      color: white;
-      border-bottom-right-radius: 6px;
-    }
-
-    .user::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      right: -8px;
-      width: 0;
-      height: 0;
-      border-left: 8px solid transparent;
-      border-right: 8px solid transparent;
-      border-bottom: 8px solid #764ba2;
-      transform: rotate(-45deg);
-    }
-
-    .bot {
-      align-self: flex-start;
-      background: #fff;
-      color: #333;
-      border-bottom-left-radius: 6px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.08);
-    }
-
-    .bot::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: -8px;
-      width: 0;
-      height: 0;
-      border-left: 8px solid transparent;
-      border-right: 8px solid transparent;
-      border-bottom: 8px solid #fff;
-      transform: rotate(45deg);
-    }
-
-    .input-row {
-      display: flex;
-      padding: 16px;
-      background: #fff;
-      border-top: 1px solid #e5e7eb;
-      gap: 10px;
-      align-items: center;
-    }
-
-    .input-row input {
-      flex: 1;
-      padding: 14px 18px;
-      border: 1px solid #e1e5e9;
-      border-radius: 12px;
-      font-size: 15px;
-      outline: none;
-      transition: all 0.3s ease;
-      background: #f8fafc;
-    }
-
-    .input-row input:focus {
-      border-color: #667eea;
-      box-shadow: 0 0 0 3px rgba(102,126,234,0.15);
-      background: #fff;
-    }
-
-    .input-row button {
-      background: linear-gradient(135deg, #667eea, #764ba2);
-      color: white;
-      border: none;
-      border-radius: 12px;
-      padding: 14px 20px;
-      cursor: pointer;
-      font-weight: 600;
-      transition: all 0.3s ease;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      box-shadow: 0 4px 12px rgba(102,126,234,0.3);
-    }
-
-    .input-row button:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 16px rgba(102,126,234,0.4);
-    }
-
-    .input-row button:active {
-      transform: translateY(0);
-    }
-
-    .muted {
-      font-size: 13px;
-      color: #6b7280;
-      text-align: center;
-      padding: 14px 0 18px;
-      background: #fff;
-      border-top: 1px solid #f0f0f0;
-    }
-
-    .muted i {
-      margin-right: 6px;
-      color: #667eea;
-    }
-
-    .typing-indicator {
-      display: flex;
-      align-self: flex-start;
-      background: #fff;
-      padding: 12px 18px;
-      border-radius: 18px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-      border-bottom-left-radius: 6px;
-      gap: 4px;
-    }
-
-    .typing-indicator span {
-      height: 8px;
-      width: 8px;
-      border-radius: 50%;
-      background: #ccc;
-      display: inline-block;
-      animation: typing 1.4s infinite ease-in-out;
-    }
-
-    .typing-indicator span:nth-child(1) {
-      animation-delay: 0s;
-    }
-
-    .typing-indicator span:nth-child(2) {
-      animation-delay: 0.2s;
-    }
-
-    .typing-indicator span:nth-child(3) {
-      animation-delay: 0.4s;
-    }
-
-    @keyframes typing {
-      0%, 60%, 100% {
-        transform: translateY(0);
-        opacity: 0.4;
-      }
-      30% {
-        transform: translateY(-5px);
-        opacity: 1;
-      }
-    }
-
-    ::-webkit-scrollbar {
-      width: 6px;
-    }
-    ::-webkit-scrollbar-thumb {
-      background: linear-gradient(to bottom, #667eea, #764ba2);
-      border-radius: 10px;
-    }
-    
-    .generation-icon {
-      display: inline-block;
-      margin-right: 8px;
-      font-size: 16px;
-    }
-    
-    .decade-button {
-      background: #f0f4ff;
-      border: 1px solid #dbe4ff;
-      border-radius: 10px;
-      padding: 8px 12px;
-      margin: 4px;
-      font-size: 12px;
-      cursor: pointer;
-      transition: all 0.2s ease;
-    }
-    
-    .decade-button:hover {
-      background: #e0ebff;
-      transform: translateY(-2px);
-    }
-    
-    .quick-actions {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      padding: 10px 0;
-      background: #fff;
-      border-top: 1px solid #f0f0f0;
+    /* Responsive */
+    @media(max-width:900px){
+      .container{flex-direction:column; align-items:center;}
+      .about-maker{width:100%; max-width:420px;}
+      .app{width:100%; max-width:420px;}
     }
   </style>
 </head>
 <body>
-  <div class="app">
-    <div class="header">
-      <h1><i class="fas fa-comments"></i> Generation Chat</h1>
-      <p>Discover which generation you belong to</p>
-    </div>
 
-    <div id="chat" class="chat">
-      <div class="bubble bot">
-        <span class="generation-icon">👋</span> Hi there! Type your birth year (e.g. 1999) and I'll tell you your generation.
+  <div class="container">
+    <!-- CHAT APP -->
+    <div class="app">
+      <div class="header">
+        <h1><i class="fas fa-comments"></i> Generation Chat</h1>
+        <p>Discover which generation you belong to</p>
       </div>
-      <div class="bubble bot">
-        <span class="generation-icon">💡</span> You can also click on a decade below to quickly explore different generations.
+
+      <div id="chat" class="chat">
+        <div class="bubble bot">👋 Hi there! Type your birth year (e.g. 1999) and I'll tell you your generation.</div>
+        <div class="bubble bot">💡 You can also click on a decade below to quickly explore different generations.</div>
       </div>
-    </div>
-    
-    <div class="quick-actions">
-      <button class="decade-button" data-year="1950">1950s</button>
-      <button class="decade-button" data-year="1960">1960s</button>
-      <button class="decade-button" data-year="1970">1970s</button>
-      <button class="decade-button" data-year="1980">1980s</button>
-      <button class="decade-button" data-year="1990">1990s</button>
-      <button class="decade-button" data-year="2000">2000s</button>
-      <button class="decade-button" data-year="2010">2010s</button>
-      <button class="decade-button" data-year="2020">2020s</button>
+
+      <div class="quick-actions">
+        <button class="decade-button" data-year="1950">1950s</button>
+        <button class="decade-button" data-year="1960">1960s</button>
+        <button class="decade-button" data-year="1970">1970s</button>
+        <button class="decade-button" data-year="1980">1980s</button>
+        <button class="decade-button" data-year="1990">1990s</button>
+        <button class="decade-button" data-year="2000">2000s</button>
+        <button class="decade-button" data-year="2010">2010s</button>
+        <button class="decade-button" data-year="2020">2020s</button>
+      </div>
+
+      <div class="input-row">
+        <input id="yearInput" type="number" placeholder="Enter birth year (e.g. 1995)..." min="1883" max="2049"/>
+        <button id="sendBtn"><i class="fas fa-paper-plane"></i> Ask</button>
+      </div>
+
+      <div class="muted"><i class="fas fa-info-circle"></i> Generations: 1883 → 2049</div>
     </div>
 
-    <div class="input-row">
-      <input id="yearInput" type="number" placeholder="Enter birth year (e.g. 1995)..." min="1883" max="2049" />
-      <button id="sendBtn">
-        <i class="fas fa-paper-plane"></i> Ask
-      </button>
-    </div>
-
-    <div class="muted">
-      <i class="fas fa-info-circle"></i> Generations: 1883 → 2049
+    <!-- ABOUT MAKER -->
+    <div class="about-maker">
+      <img src="C:\Users\Laptop care rxl\Desktop\html files\github\aiease_1757131899332.jpg" alt="Maker Photo" class="clickable-img">
+      <h2>👨‍💻 Created by Ajay Kumar</h2>
+      <p>Hi! I'm <strong>K. Ajay Kumar</strong>, a passionate web and C++ developer who loves creating interactive and visually beautiful projects!</p>
+      <div class="social-icons">
+        <a href="https://github.com/" target="_blank"><i class="fab fa-github"></i></a>
+        <a href="https://www.linkedin.com/" target="_blank"><i class="fab fa-linkedin"></i></a>
+        <a href="mailto:example@email.com"><i class="fas fa-envelope"></i></a>
+      </div>
     </div>
   </div>
 
+  <!-- Lightbox -->
+  <div id="lightbox"><img id="lightbox-img" src=""></div>
+
   <script>
+    // CHAT FUNCTIONALITY
     const chat = document.getElementById('chat');
     const yearInput = document.getElementById('yearInput');
     const sendBtn = document.getElementById('sendBtn');
     const decadeButtons = document.querySelectorAll('.decade-button');
 
-    function addBubble(text, cls = 'bot') {
-      const el = document.createElement('div');
-      el.className = 'bubble ' + cls;
-      el.innerHTML = text;
+    function addBubble(text, cls='bot'){
+      const el=document.createElement('div');
+      el.className='bubble '+cls;
+      el.innerHTML=text;
       chat.appendChild(el);
       chat.scrollTop = chat.scrollHeight;
     }
 
-    function showTypingIndicator() {
-      const indicator = document.createElement('div');
-      indicator.className = 'typing-indicator';
-      indicator.innerHTML = '<span></span><span></span><span></span>';
-      chat.appendChild(indicator);
+    function showTypingIndicator(){
+      const el=document.createElement('div');
+      el.className='bubble bot';
+      el.textContent='...';
+      chat.appendChild(el);
       chat.scrollTop = chat.scrollHeight;
-      return indicator;
+      return el;
     }
 
-    function getGeneration(year) {
-      const ranges = [
-        { name: "The Lost Generation", start: 1883, end: 1900, desc: "Born 1883–1900", icon: "🕰️" },
-        { name: "The Greatest Generation", start: 1901, end: 1927, desc: "Born 1901–1927", icon: "🌟" },
-        { name: "The Silent Generation", start: 1928, end: 1945, desc: "Born 1928–1945", icon: "🤫" },
-        { name: "Baby Boomers", start: 1946, end: 1964, desc: "Born 1946–1964", icon: "👶" },
-        { name: "Generation X", start: 1965, end: 1980, desc: "Born 1965–1980", icon: "❌" },
-        { name: "Millennials (Gen Y)", start: 1981, end: 1996, desc: "Born 1981–1996", icon: "📱" },
-        { name: "Generation Z (Gen Z)", start: 1997, end: 2012, desc: "Born 1997–2012", icon: "🎮" },
-        { name: "Generation Alpha (Gen α)", start: 2013, end: 2029, desc: "Born 2013–2029", icon: "α" },
-        { name: "Generation Beta (Gen β)", start: 2030, end: 2049, desc: "Projected 2030–2049", icon: "β" }
+    function getGeneration(year){
+      const ranges=[
+        {name:"The Lost Generation", start:1883,end:1900,desc:"Born 1883–1900",icon:"🕰️"},
+        {name:"The Greatest Generation", start:1901,end:1927,desc:"Born 1901–1927",icon:"🌟"},
+        {name:"The Silent Generation", start:1928,end:1945,desc:"Born 1928–1945",icon:"🤫"},
+        {name:"Baby Boomers", start:1946,end:1964,desc:"Born 1946–1964",icon:"👶"},
+        {name:"Generation X", start:1965,end:1980,desc:"Born 1965–1980",icon:"❌"},
+        {name:"Millennials (Gen Y)", start:1981,end:1996,desc:"Born 1981–1996",icon:"📱"},
+        {name:"Generation Z (Gen Z)", start:1997,end:2012,desc:"Born 1997–2012",icon:"🎮"},
+        {name:"Generation Alpha (Gen α)", start:2013,end:2029,desc:"Born 2013–2029",icon:"α"},
+        {name:"Generation Beta (Gen β)", start:2030,end:2049,desc:"Projected 2030–2049",icon:"β"}
       ];
-
-      for (const r of ranges) {
-        if (year >= r.start && year <= r.end) {
-          return `<span class="generation-icon">${r.icon}</span> <strong>${r.name}</strong> — ${r.desc}`;
+      for(const r of ranges){
+        if(year>=r.start && year<=r.end){
+          return `${r.icon} <strong>${r.name}</strong> — ${r.desc}`;
         }
       }
-      if (year < 1883) return `<span class="generation-icon">🕰️</span> That's before the listed generations!`;
-      if (year > 2049) return `<span class="generation-icon">🚀</span> That's a future generation not yet defined!`;
-      return `<span class="generation-icon">❓</span> Please enter a valid year.`;
+      return "❓ Please enter a valid year.";
     }
 
-    function handleAsk() {
-      const year = Number(yearInput.value);
-      if (!year || year < 1883 || year > 2049) {
-        addBubble(`<span class="generation-icon">⚠️</span> Please type a valid year between 1883 and 2049.`, 'bot');
+    function handleAsk(){
+      const year=Number(yearInput.value);
+      if(!year || year<1883 || year>2049){
+        addBubble("⚠️ Please type a valid year between 1883 and 2049.",'bot');
         return;
       }
-
-      addBubble(String(year), 'user');
-      yearInput.value = '';
-
-      // Show typing indicator
-      const typingIndicator = showTypingIndicator();
-      
-      // delay bot reply for realism
-      setTimeout(() => {
-        typingIndicator.remove();
-        const reply = getGeneration(year);
-        addBubble(reply, 'bot');
-      }, 1000 + Math.random() * 1000);
+      addBubble(String(year),'user');
+      yearInput.value='';
+      const typing = showTypingIndicator();
+      setTimeout(()=>{
+        typing.remove();
+        addBubble(getGeneration(year),'bot');
+      },1000);
     }
 
-    function handleDecadeClick(e) {
-      const year = parseInt(e.target.dataset.year);
-      addBubble(`<span class="generation-icon">🔍</span> Exploring the ${year}s...`, 'user');
-      
-      // Show typing indicator
-      const typingIndicator = showTypingIndicator();
-      
-      // delay bot reply for realism
-      setTimeout(() => {
-        typingIndicator.remove();
-        const reply = getGeneration(year);
-        addBubble(reply, 'bot');
-        
-        // Add some extra info about that decade
-        setTimeout(() => {
-          const extraInfo = getDecadeInfo(year);
-          if (extraInfo) {
-            addBubble(extraInfo, 'bot');
-          }
-        }, 500);
-      }, 1000 + Math.random() * 1000);
+    function handleDecadeClick(e){
+      const year=parseInt(e.target.dataset.year);
+      addBubble(`🔍 Exploring the ${year}s...`,'user');
+      const typing = showTypingIndicator();
+      setTimeout(()=>{
+        typing.remove();
+        addBubble(getGeneration(year),'bot');
+      },1000);
     }
 
-    function getDecadeInfo(year) {
-      const decade = Math.floor(year / 10) * 10;
-      const infoMap = {
-        1950: `<span class="generation-icon">📺</span> The 1950s saw the rise of television and rock 'n' roll music.`,
-        1960: `<span class="generation-icon">✌️</span> The 1960s were marked by social movements and the space race.`,
-        1970: `<span class="generation-icon">🎸</span> The 1970s featured disco music and the birth of personal computing.`,
-        1980: `<span class="generation-icon">📼</span> The 1980s introduced MTV, home computers, and arcade games.`,
-        1990: `<span class="generation-icon">🌐</span> The 1990s saw the rise of the internet and grunge music.`,
-        2000: `<span class="generation-icon">📱</span> The 2000s brought smartphones and social media to the mainstream.`,
-        2010: `<span class="generation-icon">📸</span> The 2010s were defined by social media and streaming services.`,
-        2020: `<span class="generation-icon">🏠</span> The 2020s began with a global pandemic and remote work revolution.`
-      };
-      
-      return infoMap[decade] || null;
-    }
+    sendBtn.addEventListener('click',handleAsk);
+    yearInput.addEventListener('keydown',(e)=> e.key==='Enter' && handleAsk());
+    decadeButtons.forEach(btn=>btn.addEventListener('click',handleDecadeClick));
 
-    sendBtn.addEventListener('click', handleAsk);
-    yearInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') handleAsk(); });
-    
-    decadeButtons.forEach(button => {
-      button.addEventListener('click', handleDecadeClick);
+    // LIGHTBOX FUNCTIONALITY
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightbox-img');
+    const clickableImages = document.querySelectorAll('.clickable-img');
+
+    clickableImages.forEach(img=>{
+      img.addEventListener('click',()=>{
+        lightboxImg.src = img.src;
+        lightbox.style.display='flex';
+      });
+    });
+
+    lightbox.addEventListener('click',()=>{
+      lightbox.style.display='none';
     });
   </script>
 </body>
